@@ -7,17 +7,25 @@ app.use(bodyParser.json())
 
 const eventos = []
 
+const postEvent = async (url, evento) =>{
+    try{
+        await axios.post(url, evento)
+    }catch (err){
+        console.log(`Erro: ${err.message} to url: ${url}`)
+    }
+}
+
 app.post('/eventos', (req, res) => {
     const evento = req.body 
     eventos.push(evento)
     //lembretes 
-    axios.post('http://localhost:4000/eventos', evento)
+    postEvent('http://localhost:4000/eventos', evento)
     //observações
-    axios.post('http://localhost:5000/eventos', evento)
+    postEvent('http://localhost:5000/eventos', evento)
     //consulta
-    axios.post('http://localhost:6000/eventos', evento)
+    postEvent('http://localhost:6000/eventos', evento)
     //classificação
-    axios.post('http://localhost:7000/eventos', evento)
+    postEvent('http://localhost:7000/eventos', evento)
     res.status(200).json({mensagem: 'ok'})
 })
 
